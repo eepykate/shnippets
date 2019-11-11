@@ -26,8 +26,16 @@ convert -size 128x128 canvas:"$1" -separate -attenuate 0.13 \
 
 ### Record the screen with ffmpeg
 
+**Option 1:**
+
 Credit: [MitchWeaver](github.com/MitchWeaver)
 
 Note: Remeber to add `-pix_fmt yuv420p` after `-i ${DISPLAY:=:0.0}+${1},${2}` to have videos work on all platforms correctly.
 
 https://github.com/MitchWeaver/bin/blob/master/util/record
+
+**Option 2:**
+
+Credit: Me
+
+https://github.com/GaugeK/dots/blob/master/other/bin/blaze
