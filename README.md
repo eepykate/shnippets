@@ -39,3 +39,15 @@ https://github.com/MitchWeaver/bin/blob/master/util/record
 Credit: Me
 
 https://github.com/GaugeK/dots/blob/master/other/bin/blaze
+
+### Cd without typing cd
+
+Instead of typing `cd dir` you can just type `dir`. If a command exists with the name `dir` it will run that instead of cd. You can force it to go into the dir by typing `dir/`.
+
+bash:
+
+    shopt -s autocd
+
+zsh:
+
+    setopt auto_cd
