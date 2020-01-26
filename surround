@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ -p /dev/stdin ]; then
+    TEXT="$(cat /dev/stdin)"
+else
+    TEXT="$1"
+    shift 1
+fi
+
+SURROUND="$*"
+
+if [ -z "$SURROUND" ]; then
+    read -p "Surround with: " SURROUND < /dev/tty
+fi
+
+if echo $SURROUND | grep -Eq "^(\(|\[|\{|<)*$"; then
+    END="$(echo $SURROUND | rev | sed -e 's/(/)/g' -e 's/\[/]/g' -e 's/{/}/g' -e 's/</>/g')"
+elif echo $SURROUND | grep -Eq "^<.*>$"; then
+    END="$(echo $SURROUND | cut -c 2- | rev | cut -c 2- | rev | awk '{print $1}')"
+    END="</$END>"
+else
+    END=$SURROUND
+fi
+
+echo "$SURROUND$TEXT$END"

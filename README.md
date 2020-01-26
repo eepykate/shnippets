@@ -28,7 +28,7 @@ convert -size 128x128 canvas:"$1" -separate -attenuate 0.13 \
 
 **Option 1:**
 
-Credit: [MitchWeaver](github.com/MitchWeaver)
+Credit: [MitchWeaver](https://github.com/MitchWeaver)
 
 Note: Remeber to add `-pix_fmt yuv420p` after `-i ${DISPLAY:=:0.0}+${1},${2}` to have videos work on all platforms correctly.
 
@@ -51,3 +51,17 @@ bash:
 zsh:
 
     setopt auto_cd
+
+### Surround text with string
+
+Credit: [BanchouBoo](https://github.com/BanchouBoo)
+
+[surround](surround)
+
+```
+>> surround test \"
+"test"
+>> surround test "(([<{"
+(([<{test}>]))
+>>
+```
