@@ -63,5 +63,6 @@ Credit: [BanchouBoo](https://github.com/BanchouBoo)
 "test"
 >> surround test "(([<{"
 (([<{test}>]))
->>
+>> surround test "<a href=\"https://github.com\">"
+<a href="https://github.com">test</a>
 ```
