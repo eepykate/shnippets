@@ -38,7 +38,7 @@ https://github.com/MitchWeaver/bin/blob/master/util/record
 
 Credit: Me
 
-https://github.com/GaugeK/dots/blob/master/x/bin/blaze
+https://github.com/GaugeK/blaze
 
 ### Cd without typing cd
 
