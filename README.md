@@ -42,7 +42,9 @@ https://github.com/GaugeK/blaze
 
 ### Cd without typing cd
 
-Instead of typing `cd dir` you can just type `dir`. If a command exists with the name `dir` it will run that instead of cd. You can force it to go into the dir by typing `dir/`.
+Instead of typing `cd dir` you can just type `dir`.
+If a command exists with the name `dir` it will run that instead of cd.
+You can force it to go into the dir by typing `dir/`.
 
 bash:
 
@@ -65,4 +67,36 @@ Credit: [BanchouBoo](https://github.com/BanchouBoo)
 (([<{test}>]))
 >> surround test "<a href=\"https://github.com\">"
 <a href="https://github.com">test</a>
+```
+
+### Select a pixel & get its hex
+
+Select a pixel, display a notification of the hex with a preview, and copy
+it to clipboard
+
+Credit: Me
+
+[colorpicker is from here](https://github.com/ym1234/colorpicker)
+
+```sh
+#!/bin/sh
+
+h="$(colorpicker -doq | tr -d '#\n')"; \
+echo -n "$h" | xclip -sel clip;        \
+notify-send "$h" "<span background=\"#$h\">      </span>"
+```
+
+Select a pixel and output the hex with a preview to the term
+
+Credit: [turquoise-hexagon](https://github.com/turquoise-hexagon)
+
+```sh
+#!/usr/bin/env bash
+
+while read -r line; do
+    IFS=', ' read -r r g b hex <<< $line
+
+    printf '%s\n\e[48;2;%s;%s;%sm       \e[m\n' \
+        "$hex" "$r" "$g" "$b"
+done < <(stdbuf -oL colorpicker -oq)
 ```
