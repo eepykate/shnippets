@@ -106,17 +106,23 @@ done < <(stdbuf -oL colorpicker -oq)
 Credit: [MCotocel](https://www.github.com/Mcotocel)
 
 ```
-#!/bin/bash
- 
-res=$(echo "Screen|Selection" | rofi -sep "|" -dmenu -i -p 'Image to text')
- 
-if [ $res = "Screen" ]; then
-    maim ~/Pictures/Screenshots/imgtext.png; tesseract ~/Pictures/Screenshots/imgtext.png ~/imgtext; xclip -sel c < ~/imgtext.txt; rm ~/imgtext.txt ~/Pictures/Screenshots/imgtext/png
-fi
-if [ $res = "Selection" ]; then
-    maim -s ~/Pictures/Screenshots/imgtext.png; tesseract ~/Pictures/Screenshots/imgtext.png ~/imgtext; xclip -sel c < ~/imgtext.txt; rm ~/imgtext.txt ~/Pictures/Screenshots/imgtext/png
-fi
-exit 0
+#!/bin/sh
+
+res=$(printf "Screen\nSelection" | rofi -dmenu -i -p 'Image to text')
+dir=${XDG_CACHE_HOME:=$HOME/.cache}
+
+case $res in
+    Screen)
+        maim "$dir/imgtext.png"
+        tesseract "$dir/imgtext.png" "$dir/imgtext"
+        xclip -sel clip < "$dir/imgtext.txt"
+        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
+    Selection)
+        maim -s "$dir/imgtext.png"
+        tesseract "$dir/imgtext.png" "$dir/imgtext"
+        xclip -sel clip < "$dir/imgtext.txt"
+        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
+esac
 ```
 
 ### Fuzzy search through zsh history
@@ -124,8 +130,10 @@ exit 0
 Credit: [MCotocel](https://www.github.com/Mcotocel)
 
 ```
-fzf-history () {
-    $(cat ~/.zsh_history | fzf --height=20% --prompt="❯ " --pointer=❯ --color=fg:4,bg:-1,bg+:-1,info:7,prompt:10,pointer:10 --preview="echo {}")
+fzf-history() {
+    $(fzf --height=20% --prompt='> ' --pointer='>' --preview='echo {}' \
+        --color=fg:4,bg:-1,bg+:-1,info:7,prompt:10,pointer:10 \
+        < "${ZDOTDIR:=$HOME}/.zsh_history")
 }
 
 zle -N fzf-history
