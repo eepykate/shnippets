@@ -100,3 +100,42 @@ while read -r line; do
         "$hex" "$r" "$g" "$b"
 done < <(stdbuf -oL colorpicker -oq)
 ```
+
+### Take screenshot and extract text
+
+Credit: [MCotocel](https://www.github.com/Mcotocel)
+
+```
+#!/bin/sh
+
+res=$(printf "Screen\nSelection" | rofi -dmenu -i -p 'Image to text')
+dir=${XDG_CACHE_HOME:=$HOME/.cache}
+
+case $res in
+    Screen)
+        maim "$dir/imgtext.png"
+        tesseract "$dir/imgtext.png" "$dir/imgtext"
+        xclip -sel clip < "$dir/imgtext.txt"
+        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
+    Selection)
+        maim -s "$dir/imgtext.png"
+        tesseract "$dir/imgtext.png" "$dir/imgtext"
+        xclip -sel clip < "$dir/imgtext.txt"
+        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
+esac
+```
+
+### Fuzzy search through zsh history
+
+Credit: [MCotocel](https://www.github.com/Mcotocel)
+
+```
+fzf-history() {
+    $(fzf --height=20% --prompt='> ' --pointer='>' --preview='echo {}' \
+        --color=fg:4,bg:-1,bg+:-1,info:7,prompt:10,pointer:10 \
+        < "${ZDOTDIR:=$HOME}/.zsh_history")
+}
+
+zle -N fzf-history
+bindkey '^R' fzf-history
+```
