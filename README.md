@@ -139,3 +139,11 @@ fzf-history() {
 zle -N fzf-history
 bindkey '^R' fzf-history
 ```
+
+### Open random manpage
+
+Credit: [Mcotocel](https://www.github.com/Mcotocel)
+
+```
+man -k . | awk '{print $1}' | shuf -n 1 | xargs man
+```
