@@ -153,5 +153,5 @@ man -k . | awk '{print $1}' | shuf -n 1 | xargs man
 Credit: [paradox](https://www.github.com/safinsingh)
 
 ```
-curl -Ls https://unsplash.it/3840/2160/?random -o image.jpg
+curl -Ls https://source.unsplash.com/random/3840x2160 -o image.jpg
 ```
