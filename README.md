@@ -147,3 +147,11 @@ Credit: [Mcotocel](https://www.github.com/Mcotocel)
 ```
 man -k . | awk '{print $1}' | shuf -n 1 | xargs man
 ```
+
+### Grab a random image from Unsplash
+
+Credit: [gk](https://www.github.com/6gk)
+
+```
+curl -Ls https://unsplash.it/3840/2160/?random -o image.jpg
+```
