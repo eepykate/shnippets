@@ -1,0 +1,21 @@
+/* role backgrounds instead of outlines */
+[class*="role-"] {
+	border: none !important;
+	overflow: hidden;
+	z-index: 0 !important;
+}
+
+[class*="role-"] > [class*="roleCircle-"]::after {
+	background-color: inherit;
+	content: '';
+	display: block;
+	position: relative !important;
+	min-width: 230px;
+	height: 69px;
+	opacity: 0.2;
+	right: -100px;
+	z-index: -1;
+	pointer-events: none;
+}
+
+[class*="roleRemoveIcon-"] { position: absolute; }

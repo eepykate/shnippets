@@ -1,0 +1,9 @@
+#  by Mcotocel - add to zshrc
+fzf-history() {
+    $(fzf --height=20% --prompt='> ' --pointer='>' --preview='echo {}' \
+        --color=fg:4,bg:-1,bg+:-1,info:7,prompt:10,pointer:10 \
+        < "${ZDOTDIR:=$HOME}/.zsh_history")
+}
+
+zle -N fzf-history
+bindkey '^R' fzf-history

@@ -1,0 +1,43 @@
+/* display info about code blocks */
+/* warning: seems to occasionally break depending on your font, if so try fiddle with some numbers before reporting a bug */
+/* display info about code blocks */
+code.hljs:not(.inline)::before {
+	content: attr(class) !important;
+	float: right;
+	display: block;
+	width: auto;
+	max-width:  5.3rem !important;
+	min-width:  auto;
+	margin-top: -8.6rem !important;
+	line-height: 1.6rem !important;
+	overflow-x: hidden;
+	scrollbar-width: none;
+	text-align: right;
+	font-size: 0.8rem;
+	opacity: 0.6;
+}
+/* elkowar uses a bitmap font and this works for him: */
+/*
+code.hljs:not(.inline)::before {
+	content: attr(class) !important;
+	float: right;
+	display: block;
+	width: auto;
+	max-width:  100px;
+	text-align: right;
+	min-width:  auto;
+	margin-top: -107px;
+	line-height: 20px;
+	overflow-x: hidden;
+	scrollbar-width: none;
+	color: var(--elk-fg-darker);
+	opacity: 0.6;
+}
+*/
+
+/* subtle code block styling */
+code.hljs:not(.inline) {
+	max-width: 560px;
+	padding: 12px;
+	border: none;
+}

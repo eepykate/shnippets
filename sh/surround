@@ -1,4 +1,12 @@
 #!/bin/sh
+#  by banchouboo
+# usage:
+# $ surround test \"
+#  "test"
+# $ surround test "(([<{"
+#  (([<{test}>]))
+# $ surround test "<a href=\"https://github.com\">"
+#  <a href="https://github.com">test</a>
 
 if [ -p /dev/stdin ]; then
     TEXT="$(cat /dev/stdin)"

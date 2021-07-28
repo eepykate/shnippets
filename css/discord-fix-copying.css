@@ -1,0 +1,13 @@
+/* fix copying messages in firefox */
+[class*="systemMessage"] span /* parent element of time          */,
+[class*="systemMessage"] i    /* invisible separator around time */,
+[id*="chat-messages-"] [class*="header-"] i /* [time] / user:    */ {
+	position: inherit;
+	display: inline-block;
+	font-size: 0;
+}
+
+[class*="systemMessage"] [class*="content-"] /* where the text bit is - next to icon */ {
+	position: inherit;
+	display: inline;
+}

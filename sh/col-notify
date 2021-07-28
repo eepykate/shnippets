@@ -1,0 +1,5 @@
+#!/bin/sh
+#  by 6gk
+hex="$(colorpicker -doq)" hex=${hex#\#}
+printf "$hex" | xclip -sel clip
+notify-send "$hex" "<span background=\"#$hex\">      </span>"

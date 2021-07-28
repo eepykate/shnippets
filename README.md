@@ -1,47 +1,72 @@
-# *sh script collection
+# collection of small snippets
+
+previously this was just shell (hence the name), didn't want another repo for snippets
 
 All credit for the repo name goes to [maxestorr](https://github.com/maxestorr)
 
-### Upload file or string of text to 0x0.st
+# css
 
+### [[discord] code blocks](css/discord-code-blocks.css)
+Displays language if declared (& gives them a cleaner look)  
+Credit: [gk](https://github.com/6gk)
+
+
+### [[discord] role backgrounds](css/discord-roles.css)
+Replaces the role outlines with a background  
+Credit: [gk](https://github.com/6gk)
+
+
+### [[discord] fix copying messages in firefox](css/discord-fix-copying.css)
+Credit: [gk](https://github.com/6gk)
+
+
+--------------------------------
+
+# shell
+
+
+### [Upload file or string of text to 0x0.st](sh/0x0)
 Credit: [viz](https://github.com/vizs)
 
-```sh
-#!/bin/sh
-[ -f "${1}" ] && op=cat
-${op:-echo} "${1:-`cat -`}" | curl -F file='@-' 'http://0x0.st'
-```
 
-### Generate a tileable wallpaper with static using imagemagick
+### [Generate a tileable wallpaper with static using imagemagick](sh/genwp)
+Credit: [gk](https://github.com/6gk)
 
-Credit: Me
 
-($1 = base hex value)
+### [Surround text with string](sh/surround)
+Credit: [BanchouBoo](https://github.com/BanchouBoo)
 
-```sh
-#!/bin/sh
-convert -size 128x128 canvas:"$1" -separate -attenuate 0.13 \
-  +noise gaussian -combine -colorspace sRGB static.png
-```
 
-### Record the screen with ffmpeg
+### [Select a pixel & copy its hex with a notification preview](sh/col-notify)
+[requires colorpicker](https://github.com/ym1234/colorpicker) & for your notification daemon to support pango markup  
+Credit: [gk](https://github.com/6gk)
 
-**Option 1:**
 
-Credit: [MitchWeaver](https://github.com/MitchWeaver)
+### [Select a pixel and output the hex with a preview to the term](sh/col-term)
+Credit: [turquoise-hexagon](https://github.com/turquoise-hexagon)
 
-Note: Remeber to add `-pix_fmt yuv420p` after `-i ${DISPLAY:=:0.0}+${1},${2}` to have videos work on all platforms correctly.
 
-https://github.com/MitchWeaver/bin/blob/master/util/record
+### [Take screenshot and extract text](sh/ocr)
+Credit: [MCotocel](https://www.github.com/Mcotocel)
 
-**Option 2:**
 
-Credit: Me
+### [Fuzzy search through zsh history](sh/zsh-fuzzy-history)
+Credit: [MCotocel](https://www.github.com/Mcotocel)
 
-https://github.com/GaugeK/blaze
 
-### Cd without typing cd
+### Open random manpage
+Credit: [Mcotocel](https://www.github.com/Mcotocel)
 
+    man -k . | awk '{print $1}' | shuf -n 1 | xargs man
+
+
+### Grab a random image from Unsplash
+Credit: [paradox](https://www.github.com/safinsingh)
+
+    curl -Ls https://source.unsplash.com/random/3840x2160 -o image.jpg
+
+
+### cd without typing cd
 Instead of typing `cd dir` you can just type `dir`.
 If a command exists with the name `dir` it will run that instead of cd.
 You can force it to go into the dir by typing `dir/`.
@@ -54,104 +79,12 @@ zsh:
 
     setopt auto_cd
 
-### Surround text with string
 
-Credit: [BanchouBoo](https://github.com/BanchouBoo)
+### Record the screen with ffmpeg
+**[Option 1](https://github.com/MitchWeaver/bin/blob/master/util/record)**
+Credit: [MitchWeaver](https://github.com/MitchWeaver)
 
-[surround](surround)
+**Note:** Remeber to add `-pix_fmt yuv420p` after `-i ${DISPLAY:=:0.0}+${1},${2}` to have videos work on all platforms correctly.
 
-```
->> surround test \"
-"test"
->> surround test "(([<{"
-(([<{test}>]))
->> surround test "<a href=\"https://github.com\">"
-<a href="https://github.com">test</a>
-```
-
-### Select a pixel & get its hex
-
-Select a pixel, display a notification of the hex with a preview, and copy
-it to clipboard
-
-Credit: Me
-
-[colorpicker is from here](https://github.com/ym1234/colorpicker)
-
-```sh
-#!/bin/sh
-
-h="$(colorpicker -doq | tr -d '#\n')"; \
-echo -n "$h" | xclip -sel clip;        \
-notify-send "$h" "<span background=\"#$h\">      </span>"
-```
-
-Select a pixel and output the hex with a preview to the term
-
-Credit: [turquoise-hexagon](https://github.com/turquoise-hexagon)
-
-```sh
-#!/usr/bin/env bash
-
-while read -r line; do
-    IFS=', ' read -r r g b hex <<< $line
-
-    printf '%s\n\e[48;2;%s;%s;%sm       \e[m\n' \
-        "$hex" "$r" "$g" "$b"
-done < <(stdbuf -oL colorpicker -oq)
-```
-
-### Take screenshot and extract text
-
-Credit: [MCotocel](https://www.github.com/Mcotocel)
-
-```
-#!/bin/sh
-
-res=$(printf "Screen\nSelection" | rofi -dmenu -i -p 'Image to text')
-dir=${XDG_CACHE_HOME:=$HOME/.cache}
-
-case $res in
-    Screen)
-        maim "$dir/imgtext.png"
-        tesseract "$dir/imgtext.png" "$dir/imgtext"
-        xclip -sel clip < "$dir/imgtext.txt"
-        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
-    Selection)
-        maim -s "$dir/imgtext.png"
-        tesseract "$dir/imgtext.png" "$dir/imgtext"
-        xclip -sel clip < "$dir/imgtext.txt"
-        rm "$dir/imgtext.txt" "$dir/imgtext.png";;
-esac
-```
-
-### Fuzzy search through zsh history
-
-Credit: [MCotocel](https://www.github.com/Mcotocel)
-
-```
-fzf-history() {
-    $(fzf --height=20% --prompt='> ' --pointer='>' --preview='echo {}' \
-        --color=fg:4,bg:-1,bg+:-1,info:7,prompt:10,pointer:10 \
-        < "${ZDOTDIR:=$HOME}/.zsh_history")
-}
-
-zle -N fzf-history
-bindkey '^R' fzf-history
-```
-
-### Open random manpage
-
-Credit: [Mcotocel](https://www.github.com/Mcotocel)
-
-```
-man -k . | awk '{print $1}' | shuf -n 1 | xargs man
-```
-
-### Grab a random image from Unsplash
-
-Credit: [paradox](https://www.github.com/safinsingh)
-
-```
-curl -Ls https://source.unsplash.com/random/3840x2160 -o image.jpg
-```
+**[Option 2](https://github.com/6gk/scr)**
+Credit: [gk](https://github.com/6gk)
